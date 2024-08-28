@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('travels', function (Blueprint $table) {
+        Schema::create('progress', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 100);
-            $table->text('description');  
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->string('image_url', 255);
+            $table->foreignId('travel_id')->constrained('travels')->onDelete('cascade');
+            $table->foreignId('destination_id')->constrained('destinations')->onDelete('cascade');
+            $table->enum('status', ['complete', 'in_progress']);
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('travels');
+        Schema::dropIfExists('progress');
     }
 };
